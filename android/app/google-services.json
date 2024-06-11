@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "918807392539-re2n6rbepek0q2k7anri2um38si41jks.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shaztech.coorgtheexplorer.admin_app",
+            "certificate_hash": "0303d368e2b72a62e48023fa89c3b0d9760aac82"
+          }
+        },
+        {
           "client_id": "918807392539-dtgt3bupbvgmk53mqhi1njgo20tu0g06.apps.googleusercontent.com",
           "client_type": 3
         }

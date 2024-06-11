@@ -1,6 +1,8 @@
+import 'package:admin_app/listing_pages/homestay_listing.dart';
 import 'package:admin_app/pages/support_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../widgets/manage_listing_box.dart';
 
@@ -35,7 +37,7 @@ class Home extends StatelessWidget {
           ),
         ],
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15.0),
           child: Column(
@@ -66,11 +68,22 @@ class Home extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ManageListingBox(
-                    name: "HomeStay",
-                    colorone: Colors.blue,
-                    colortwo: Colors.cyan,
-                    colorthree: Colors.tealAccent,
+                  GestureDetector(
+                    onTap: () {
+                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomestayListing(),
+                        ),
+                      );
+                    },
+                    child: ManageListingBox(
+                      name: "HomeStay",
+                      colorone: Colors.blue,
+                      colortwo: Colors.cyan,
+                      colorthree: Colors.tealAccent,
+                    ),
                   ),
                   ManageListingBox(
                     name: "Taxi",

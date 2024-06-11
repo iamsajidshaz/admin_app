@@ -1,5 +1,7 @@
-import 'package:admin_app/pages/home_page.dart';
 import 'package:admin_app/providers/app_provider.dart';
+import 'package:admin_app/services/auth_services.dart';
+import 'package:admin_app/services/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +10,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _auth = AuthServices();
     AppProvider appProvider = Provider.of<AppProvider>(context);
     return Scaffold(
       body: Container(
@@ -95,15 +98,14 @@ class LoginPage extends StatelessWidget {
                         GestureDetector(
                           onTap: () async {
                             appProvider.setGoogleSignInClicked(true);
-                            await Future.delayed(const Duration(seconds: 5));
+                            // google login
+                            await _auth
+                                .loginWithGoogle()
+                                .then((value) => checkIfNewUser());
+                            // add user details to DB if new user
+
                             appProvider.setGoogleSignInClicked(false);
                             // goto home
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(),
-                              ),
-                            );
                           },
                           child: Container(
                             height: 50,
@@ -157,4 +159,29 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+}
+
+checkIfNewUser() async {
+  String id = await FirebaseAuth.instance.currentUser!.uid;
+//  String isnew = await DatabaseMethods().checkIfNewUser(id).toString();
+  print("isnew: " + id);
+  String isNew =
+      await DatabaseMethods().getFieldFromDocument("AdminUsers", id, "new");
+  print("isnew: " + isNew);
+  if (isNew == "true") {
+    await registerUserDetails(id);
+  }
+}
+
+registerUserDetails(String id) async {
+  Map<String, dynamic> adminUserInfoMap = {
+    "ID": id,
+    "status": "PENDING",
+    "homestay_limit": "3",
+    "taxi_limit": "0",
+    "shop_limit": "0",
+    "hotel_limit": "0",
+    "new": "false",
+  };
+  await DatabaseMethods().addUserToDB(adminUserInfoMap, id);
 }

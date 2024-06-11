@@ -59,4 +59,5 @@ class DefaultFirebaseOptions {
     projectId: 'coorg-the-explorer',
     storageBucket: 'coorg-the-explorer.appspot.com',
   );
+
 }
