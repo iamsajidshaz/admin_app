@@ -1,58 +1,119 @@
-import 'package:admin_app/listing_pages/add_new_homestay.dart';
+import 'package:admin_app/listing_pages/homestay/add_new_homestay.dart';
 import 'package:admin_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'edit_homestay.dart';
+import 'view_homestay.dart';
 
-class HomestayListing extends StatelessWidget {
+class HomestayListing extends StatefulWidget {
   const HomestayListing({super.key});
 
   @override
+  State<HomestayListing> createState() => _HomestayListingState();
+}
+
+class _HomestayListingState extends State<HomestayListing> {
+  @override
   Widget build(BuildContext context) {
     DatabaseMethods databaseMethods = DatabaseMethods();
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Column(
-          children: [
-            const Text(
-              "My Homestay Listings",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontSize: 24,
-              ),
-            ),
-            const Text(
-              "( Click on HomeStay to view )",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontSize: 14,
-              ),
-            ),
-          ],
+        title: const Text(
+          "My Homestay Listings",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+            fontSize: 24,
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          int n = await databaseMethods.countDocuments();
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              autofocus: true,
+              onPressed: () async {
+                int n = await databaseMethods.countFilteredDocuments(
+                    FirebaseAuth.instance.currentUser!.uid);
+                String lmt = await databaseMethods.getFieldFromDocument(
+                  "AdminUsers",
+                  FirebaseAuth.instance.currentUser!.uid,
+                  "homestay_limit",
+                );
+                // print("total homestays for this user" + n.toString());
+                //   print("total homestays for this user" + lmt.toString());
 
-          //
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddNewHomestay(listNumber: n.toString()),
+                if (n.toString() == lmt) {
+                  Fluttertoast.showToast(
+                      msg: "Homestay Listing Limit exceeded",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          AddNewHomestay(listNumber: n.toString()),
+                    ),
+                  );
+                }
+
+                //
+              },
+              icon: FaIcon(
+                FontAwesomeIcons.squarePlus,
+                color: Colors.green,
+              ),
             ),
-          );
-        },
-        backgroundColor: Colors.green,
-        child: Icon(
-          CupertinoIcons.add,
-          color: Colors.white,
-        ),
+          ),
+        ],
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     int n = await databaseMethods
+      //         .countFilteredDocuments(FirebaseAuth.instance.currentUser!.uid);
+      //     String lmt = await databaseMethods.getFieldFromDocument(
+      //       "AdminUsers",
+      //       FirebaseAuth.instance.currentUser!.uid,
+      //       "homestay_limit",
+      //     );
+      //     // print("total homestays for this user" + n.toString());
+      //     //   print("total homestays for this user" + lmt.toString());
+
+      //     if (n.toString() == lmt) {
+      //       Fluttertoast.showToast(
+      //           msg: "Homestay Listing Limit exceeded",
+      //           toastLength: Toast.LENGTH_SHORT,
+      //           gravity: ToastGravity.CENTER,
+      //           timeInSecForIosWeb: 1,
+      //           backgroundColor: Colors.red,
+      //           textColor: Colors.white,
+      //           fontSize: 16.0);
+      //     } else {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(
+      //           builder: (context) => AddNewHomestay(listNumber: n.toString()),
+      //         ),
+      //       );
+      //     }
+
+      //     //
+      //   },
+      //   backgroundColor: Colors.green,
+      //   child: Icon(
+      //     CupertinoIcons.add,
+      //     color: Colors.white,
+      //   ),
+      // ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('Homestays')
@@ -64,8 +125,6 @@ class HomestayListing extends StatelessWidget {
           }
           var documents = snapshot.data!.docs;
 
-          print("length is: " + documents.length.toString());
-
           return documents.length == 0
               ? Center(
                   child: Text("NO HOMESTAY FOUND, CLICK ON + TO ADD"),
@@ -76,8 +135,12 @@ class HomestayListing extends StatelessWidget {
                     var document = documents[index];
 
                     return Padding(
-                      padding:
-                          const EdgeInsets.only(top: 25.0, right: 25, left: 25),
+                      padding: const EdgeInsets.only(
+                        top: 25.0,
+                        right: 25,
+                        left: 25,
+                        bottom: 25,
+                      ),
                       child: Column(
                         children: [
                           Container(
@@ -159,10 +222,77 @@ class HomestayListing extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditHomestay(
+                                                listNumber: document["sn"],
+                                                name: document["Name"],
+                                                location: document["Location"],
+                                                maplink: document["maplink"],
+                                                imageOneUrl:
+                                                    document["image_one"],
+                                                imageTwoUrl:
+                                                    document["image_two"],
+                                                imageThreeUrl:
+                                                    document["image_three"],
+                                                imageFourUrl:
+                                                    document["image_four"],
+                                                isWifi: document["fac1"],
+                                                isAc: document["fac2"],
+                                                isHeater: document["fac3"],
+                                                isFood: document["fac4"],
+                                                isParking: document["fac5"],
+                                                activityOne:
+                                                    document["activityOne"],
+                                                activityTwo:
+                                                    document["activityTwo"],
+                                                activityThree:
+                                                    document["activityThree"],
+                                              ),
+                                            ),
+                                          );
+                                        },
                                         icon: Icon(
                                           Icons.edit,
+                                          color: Colors.black,
                                         ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HomeStayView(
+                                                // listNumber: document["sn"],
+                                                // name: document["Name"],
+                                                // location: document["Location"],
+                                                // maplink: document["maplink"],
+                                                imageOne: document["image_one"],
+                                                imageTwo: document["image_two"],
+                                                imageThree:
+                                                    document["image_three"],
+                                                // imageFourUrl:
+                                                //     document["image_four"],
+                                                fac1: document["fac1"],
+                                                fac2: document["fac2"],
+                                                fac3: document["fac3"],
+                                                fac4: document["fac4"],
+                                                fac5: document["fac5"],
+                                                // activityOne:
+                                                //     document["activityOne"],
+                                                // activityTwo:
+                                                //     document["activityTwo"],
+                                                // activityThree:
+                                                //     document["activityThree"],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        icon: FaIcon(FontAwesomeIcons.eye),
                                       ),
                                       IconButton(
                                           onPressed: () {
@@ -214,6 +344,7 @@ class HomestayListing extends StatelessWidget {
                                           },
                                           icon: Icon(
                                             Icons.delete,
+                                            color: Colors.red,
                                           )),
                                     ],
                                   ),

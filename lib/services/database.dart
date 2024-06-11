@@ -21,11 +21,22 @@ class DatabaseMethods {
 
   // count total lists
 
-  Future<int> countDocuments() async {
+  Future<int> countDocuments(String collection_ref) async {
     // Replace 'your_collection' with the name of your collection
     CollectionReference collectionRef =
-        FirebaseFirestore.instance.collection('Homestays');
+        FirebaseFirestore.instance.collection(collection_ref);
     QuerySnapshot querySnapshot = await collectionRef.get();
+
+    return querySnapshot.size;
+  }
+
+  //
+
+  Future<int> countFilteredDocuments(String userGuid) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('Homestays')
+        .where('ID', isEqualTo: userGuid)
+        .get();
 
     return querySnapshot.size;
   }

@@ -1,12 +1,9 @@
 import 'dart:io';
-
-import 'package:admin_app/pages/login_page.dart';
 import 'package:admin_app/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
 import '../providers/app_provider.dart';
 import '../services/auth_services.dart';
 import '../widgets/account_details_box.dart';

@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../services/database.dart';
-import '../widgets/image_upload_success_box.dart';
+import '../../services/database.dart';
+import '../../widgets/image_upload_success_box.dart';
 
 class AddNewHomestay extends StatefulWidget {
   const AddNewHomestay({
@@ -637,6 +637,9 @@ class _AddNewHomestayState extends State<AddNewHomestay> {
                         "fac3": isHeater.toString(),
                         "fac4": isFood.toString(),
                         "fac5": isParking.toString(),
+                        "activityOne": _activityOneController.toString(),
+                        "activityTwo": _activityTwoController.toString(),
+                        "activityThree": _activityThreeController.toString(),
                         "status": "pending",
                         "sn": widget.listNumber,
                         "lang": "0",
