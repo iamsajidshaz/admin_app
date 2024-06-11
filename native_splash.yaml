@@ -1,0 +1,13 @@
+flutter_native_splash:
+  android: true
+  ios: false
+  web: false
+
+  color: "#FEFEFE"
+  image: "assets/images/cte_logo.png"
+  branding: "assets/images/branding_cteadmin.png"
+
+  android_12:
+    color: "#FEFEFE"
+    image: "assets/images/cte_logo.png"
+    branding: "assets/images/branding_cteadmin.png"
