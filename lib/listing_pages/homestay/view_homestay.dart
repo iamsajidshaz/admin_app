@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class HomeStayView extends StatefulWidget {
   final String fac1;
@@ -10,6 +11,12 @@ class HomeStayView extends StatefulWidget {
   final String imageOne;
   final String imageTwo;
   final String imageThree;
+  final String imageFour;
+  final String activityOne;
+  final String activityTwo;
+  final String activityThree;
+  final String name;
+  final String location;
   const HomeStayView({
     super.key,
     required this.fac1,
@@ -20,6 +27,12 @@ class HomeStayView extends StatefulWidget {
     required this.imageOne,
     required this.imageTwo,
     required this.imageThree,
+    required this.imageFour,
+    required this.activityOne,
+    required this.activityTwo,
+    required this.activityThree,
+    required this.name,
+    required this.location,
   });
 
   @override
@@ -44,6 +57,7 @@ class _HomeStayViewState extends State<HomeStayView> {
       widget.imageOne,
       widget.imageTwo,
       widget.imageThree,
+      widget.imageFour,
     ];
   }
 
@@ -72,7 +86,7 @@ class _HomeStayViewState extends State<HomeStayView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("RICHBERRY- A Premium Plantation Villa"),
+        title: Text(widget.name),
         backgroundColor: Colors.white,
       ),
       body: ListView(
@@ -98,7 +112,7 @@ class _HomeStayViewState extends State<HomeStayView> {
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Text(
-              "RICHBERRY- A Premium Plantation Villa",
+              widget.name,
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 18,
@@ -120,7 +134,7 @@ class _HomeStayViewState extends State<HomeStayView> {
                   width: 5,
                 ),
                 Text(
-                  "BM Road, 7th hoskote, Suntikoppa",
+                  widget.location,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
@@ -349,7 +363,7 @@ class _HomeStayViewState extends State<HomeStayView> {
                     width: 20,
                   ),
                   Text(
-                    "Fire Camp",
+                    widget.activityOne,
                     style: TextStyle(
                       color: Colors.black87,
                       fontWeight: FontWeight.bold,
@@ -381,7 +395,7 @@ class _HomeStayViewState extends State<HomeStayView> {
                     width: 20,
                   ),
                   Text(
-                    "Indoor Sports",
+                    widget.activityTwo,
                     style: TextStyle(
                       color: Colors.black87,
                       fontWeight: FontWeight.bold,
@@ -413,7 +427,7 @@ class _HomeStayViewState extends State<HomeStayView> {
                     width: 20,
                   ),
                   Text(
-                    "Poker Club",
+                    widget.activityThree,
                     style: TextStyle(
                       color: Colors.black87,
                       fontWeight: FontWeight.bold,
@@ -433,7 +447,16 @@ class _HomeStayViewState extends State<HomeStayView> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Fluttertoast.showToast(
+                      msg: "Customer can book from here",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                },
                 child: const Text(
                   "SEND BOOKING INQUIRY",
                   style: TextStyle(color: Colors.white),

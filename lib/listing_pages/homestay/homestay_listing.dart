@@ -267,27 +267,25 @@ class _HomestayListingState extends State<HomestayListing> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   HomeStayView(
-                                                // listNumber: document["sn"],
-                                                // name: document["Name"],
-                                                // location: document["Location"],
-                                                // maplink: document["maplink"],
+                                                name: document["Name"],
+                                                location: document["Location"],
                                                 imageOne: document["image_one"],
                                                 imageTwo: document["image_two"],
                                                 imageThree:
                                                     document["image_three"],
-                                                // imageFourUrl:
-                                                //     document["image_four"],
+                                                imageFour:
+                                                    document["image_four"],
                                                 fac1: document["fac1"],
                                                 fac2: document["fac2"],
                                                 fac3: document["fac3"],
                                                 fac4: document["fac4"],
                                                 fac5: document["fac5"],
-                                                // activityOne:
-                                                //     document["activityOne"],
-                                                // activityTwo:
-                                                //     document["activityTwo"],
-                                                // activityThree:
-                                                //     document["activityThree"],
+                                                activityOne:
+                                                    document["activityOne"],
+                                                activityTwo:
+                                                    document["activityTwo"],
+                                                activityThree:
+                                                    document["activityThree"],
                                               ),
                                             ),
                                           );

@@ -1,4 +1,7 @@
 import 'package:admin_app/listing_pages/homestay/homestay_listing.dart';
+import 'package:admin_app/listing_pages/hotels/hotels_listing.dart';
+import 'package:admin_app/listing_pages/shops/shops_listing.dart';
+import 'package:admin_app/listing_pages/taxi/taxi_listing.dart';
 import 'package:admin_app/pages/support_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -84,11 +87,21 @@ class Home extends StatelessWidget {
                       colorthree: Colors.tealAccent,
                     ),
                   ),
-                  ManageListingBox(
-                    name: "Taxi",
-                    colorone: Colors.blue,
-                    colortwo: Colors.cyan,
-                    colorthree: Colors.lightGreenAccent,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TaxisListing(),
+                        ),
+                      );
+                    },
+                    child: ManageListingBox(
+                      name: "Taxi",
+                      colorone: Colors.blue,
+                      colortwo: Colors.cyan,
+                      colorthree: Colors.lightGreenAccent,
+                    ),
                   )
                 ],
               ),
@@ -98,17 +111,39 @@ class Home extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ManageListingBox(
-                    name: "Hotel",
-                    colorone: Colors.blue,
-                    colortwo: Colors.cyan,
-                    colorthree: Colors.indigoAccent,
+                  GestureDetector(
+                    onTap: () {
+                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HotelsListing(),
+                        ),
+                      );
+                    },
+                    child: ManageListingBox(
+                      name: "Hotel",
+                      colorone: Colors.blue,
+                      colortwo: Colors.cyan,
+                      colorthree: Colors.indigoAccent,
+                    ),
                   ),
-                  ManageListingBox(
-                    name: "Shop",
-                    colorone: Colors.blue,
-                    colortwo: Colors.cyan,
-                    colorthree: Colors.cyanAccent,
+                  GestureDetector(
+                    onTap: () {
+                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ShopsListing(),
+                        ),
+                      );
+                    },
+                    child: ManageListingBox(
+                      name: "Shop",
+                      colorone: Colors.blue,
+                      colortwo: Colors.cyan,
+                      colorthree: Colors.cyanAccent,
+                    ),
                   )
                 ],
               ),
