@@ -624,7 +624,7 @@ class _AddNewHomestayState extends State<AddNewHomestay> {
                       String id =
                           "${widget.listNumber}_${FirebaseAuth.instance.currentUser!.uid}";
                       Map<String, dynamic> homestayInfoMap = {
-                        
+                        "ID": FirebaseAuth.instance.currentUser!.uid,
                         "Name": _nameController.text,
                         "Location": _locationController.text,
                         "maplink": _mapLinkController.text,
